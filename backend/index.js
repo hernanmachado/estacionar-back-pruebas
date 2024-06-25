@@ -1,10 +1,21 @@
-const http = require("http")
+import express from 'express'
+//importo el archivo de la data base
+import {pool} from './db.js'
 
-function requestController() {
+const app= express()
 
-    console.log("vamos otra vez con el intento ")
 
-    const server = http.createserver(requestController)
+//despliego en mi servidor basico de node un mensaje 
+app.get('/' , (req, res) => {
+    res.send('SERVIDOR DANDO RESPUESTA!!')
+})
 
-    server.listen(4000)
-}
+app.get('/ping' , async (req, res) => {
+    const result = await pool.query('SELECT "usuario registrado" as RESULT');
+    console.log(result)
+    res.send('una prueba de respuesta2!!!')
+})
+
+app.listen(3000)
+
+console.log('server on port 3000')
